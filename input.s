@@ -61,43 +61,41 @@ again
 			;cmp counter, #count				; once count is reach will branch to test statement
 			;beq Test
 			ldrb r2, [r0]				; whatever is stored at 40004C21 (input pins P4) is now at r2			
-			;and r2, #0xFF				; keep all pins
+			and r2, #0xFF				; keep all pins
 			
-			;cmp r2, #0x01
-			;beq CH0			
-			;cmp r2, #0x02
-			;beq CH1
-			;cmp r2, #0x04
-			;beq CH2
-			;cmp r2, #0x08
-			;beq CH3			
-			;cmp r2, #0x10
-			;beq CH4
-			;cmp r2, #0x20
-			;beq CH5
-			;cmp r2, #0x40
-			;beq CH6			
-			;cmp r2, #0x80
-			;beq CH7
-			;cmp r2, #0x50
-			;beq CH8
-			;cmp r2, #0xA0
-			;beq CH9
+			cmp r2, #0x01
+			beq CH0			
+			cmp r2, #0x02
+			beq CH1
+			cmp r2, #0x04
+			beq CH2
+			cmp r2, #0x08
+			beq CH3			
+			cmp r2, #0x10
+			beq CH4
+			cmp r2, #0x20
+			beq CH5
+			cmp r2, #0x40
+			beq CH6			
+			cmp r2, #0x80
+			beq CH7
+			cmp r2, #0x50
+			beq CH8
+			cmp r2, #0xA0
+			beq CH9
 
 			
 			mov r1, #0x00
 			strb r1, [r3, #2]
 			b again
 			
-CH0			mov r1, #0x01				; currently going to CH0
-			strb r1, [r3, #2]
+CH0			
 			mov r1, #0x00
 			strb r1,[r5,r12]
 			add counter, #1			
 			b again			
 		
-CH1			mov r1, #0x01
-			strb r1, [r3, #2]
+CH1			
 			mov r1, #0x01
 			strb r1,[r5,r12]
 			add counter, #1	
@@ -111,32 +109,28 @@ CH2			mov r1, #0x01
 			b again
 
 
-CH3			mov r1, #0x01
-			strb r1, [r3, #2]
+CH3			
 			mov r1, #0x03
 			strb r1,[r5,r12]
 			add counter, #1	
 			b again
 
 
-CH4			mov r1, #0x01
-			strb r1, [r3, #2]
+CH4			
 			mov r1, #0x04
 			strb r1,[r5,r12]
 			add counter, #1	
 			b again
 
 
-CH5			mov r1, #0x01
-			strb r1, [r3, #2]
+CH5			
 			mov r1, #0x05
 			strb r1,[r5,r12]
 			add counter, #1	
 			b again
 
 
-CH6			mov r1, #0x01
-			strb r1, [r3, #2]
+CH6			
 			mov r1, #0x06
 			strb r1,[r5,r12]
 			add counter, #1	
@@ -144,24 +138,21 @@ CH6			mov r1, #0x01
 
 
 
-CH7			mov r1, #0x01
-			strb r1, [r3, #2]
+CH7			
 			mov r1, #0x07
 			strb r1,[r5,r12]
 			add counter, #1	
 			b again
 
 
-CH8			mov r1, #0x01
-			strb r1, [r3, #2]
+CH8			
 			mov r1, #0x08
 			strb r1,[r5,r12]
 			add counter, #1	
 			b again
 
 
-CH9			mov r1, #0x01
-			strb r1, [r3, #2]
+CH9			
 			mov r1, #0x09
 			strb r1,[r5,r12]
 			add counter, #1	
