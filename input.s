@@ -2,13 +2,13 @@
 			; maybe thumb?
 				
 				
-		; This program is meant to set an input ( digits) that needs to be matched in order to turn on/off 
-		; a security system.
+; This program is meant to set an input ( digits) that needs to be matched in order to turn on/off 
+; a security system.
 		
 		
 count		equ 	5						; ( # of digits)  leave at 2 for testing purposes
-codeG		dcb		0xAA					; security code that needs to be matched to the testing digits.
-
+codeG		dcd		0xAA					; security code that needs to be matched to the testing digits.
+counter		RN		r12		
 			export __main
 __main 		 proc
 	
@@ -18,22 +18,23 @@ __main 		 proc
 			;r3 base for outputs
 			;r4 base address for PIR inputs
 			;r5 location in memory for numpad to be tested
-	
-; first step is to turn on a light by using the 1 button. acitvates pin 10001000 
-; input P2.5,6 are set up		
+			;r12 counter for test.
+			
+			
+; input P4 set up		
 			ldr r0, =0x40004C21			;p4 address 0x21
 			mov r1, #0x00
 			strb r1, [r0, #4]			;p4 all are input pins. 0x00 DIR
-			strb r1, [r0, #2]			; P4 pull down resistor set, maybe?
+			strb r1, [r0, #2]			; P4REN for all pins
 			mov r1, #0xFF				; 0-7 pins 
-			strb r1, [r0, #6]			; P4REN for all pins
-
+			strb r1, [r0, #6]			; P4 pull up resistor set, maybe?
 			
 
 ; setting output as P2.0 ( built in LED)
-			mov r2, #0x01				; 0x01 pin 1 on.
+			mov r2, #0x01				; 0x01 pin 0 on.
 			ldr r3, =0x40004C01			; port 2 base address
 			strb r2, [r3, #4]			; set DIR pins
+
 
 
 
@@ -51,34 +52,38 @@ __main 		 proc
 			
 
 ; set for on and off test.
-			
-			mov r1, #0x01
+
 			ldr r5, =0x40002000
+			mov r12, #0x01
+
 			
 again		
+			;cmp counter, #count				; once count is reach will branch to test statement
+			;beq Test
 			ldrb r2, [r0]				; whatever is stored at 40004C21 (input pins P4) is now at r2			
-			and r2, #0xFF				; keep all pins
+			;and r2, #0xFF				; keep all pins
 			
-			cmp r2, #0x28
-			beq CH0			
-			cmp r2, #0x11
-			beq CH1
-			cmp r2, #0x21
-			beq CH2
-			cmp r2, #0x41
-			beq CH3			
-			cmp r2, #0x12
-			beq CH4
-			cmp r2, #0x22
-			beq CH5
-			cmp r2, #0x42
-			beq CH6			
-			cmp r2, #0x14
-			beq CH7
-			cmp r2, #0x24
-			beq CH8
-			cmp r2, #0x44
-			beq CH9
+			;cmp r2, #0x01
+			;beq CH0			
+			;cmp r2, #0x02
+			;beq CH1
+			;cmp r2, #0x04
+			;beq CH2
+			;cmp r2, #0x08
+			;beq CH3			
+			;cmp r2, #0x10
+			;beq CH4
+			;cmp r2, #0x20
+			;beq CH5
+			;cmp r2, #0x40
+			;beq CH6			
+			;cmp r2, #0x80
+			;beq CH7
+			;cmp r2, #0x50
+			;beq CH8
+			;cmp r2, #0xA0
+			;beq CH9
+
 			
 			mov r1, #0x00
 			strb r1, [r3, #2]
@@ -86,39 +91,91 @@ again
 			
 CH0			mov r1, #0x01				; currently going to CH0
 			strb r1, [r3, #2]
+			mov r1, #0x00
+			strb r1,[r5,r12]
+			add counter, #1			
 			b again			
 		
 CH1			mov r1, #0x01
 			strb r1, [r3, #2]
+			mov r1, #0x01
+			strb r1,[r5,r12]
+			add counter, #1	
 			b again
 			
 CH2			mov r1, #0x01
 			strb r1, [r3, #2]
+			mov r1, #0x02
+			strb r1,[r5,r12]
+			add counter, #1	
 			b again
 
 
-CH3
+CH3			mov r1, #0x01
+			strb r1, [r3, #2]
+			mov r1, #0x03
+			strb r1,[r5,r12]
+			add counter, #1	
+			b again
 
 
-CH4
+CH4			mov r1, #0x01
+			strb r1, [r3, #2]
+			mov r1, #0x04
+			strb r1,[r5,r12]
+			add counter, #1	
+			b again
 
 
-CH5
+CH5			mov r1, #0x01
+			strb r1, [r3, #2]
+			mov r1, #0x05
+			strb r1,[r5,r12]
+			add counter, #1	
+			b again
 
 
-CH6
+CH6			mov r1, #0x01
+			strb r1, [r3, #2]
+			mov r1, #0x06
+			strb r1,[r5,r12]
+			add counter, #1	
+			b again
 
 
 
-CH7
+CH7			mov r1, #0x01
+			strb r1, [r3, #2]
+			mov r1, #0x07
+			strb r1,[r5,r12]
+			add counter, #1	
+			b again
 
 
-CH8
+CH8			mov r1, #0x01
+			strb r1, [r3, #2]
+			mov r1, #0x08
+			strb r1,[r5,r12]
+			add counter, #1	
+			b again
 
 
-CH9
+CH9			mov r1, #0x01
+			strb r1, [r3, #2]
+			mov r1, #0x09
+			strb r1,[r5,r12]
+			add counter, #1	
+			b again
 			
+			
+Test
 
+			b again
+			
+			
+delay
+
+			b again
 
 			endp
 			end
