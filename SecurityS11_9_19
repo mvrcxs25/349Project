@@ -233,6 +233,16 @@ inner
 			bne outer
 			b again
 			
+			
+			
+			
+			
+			
+			
+			
+			
+
+			
 	
 
 
